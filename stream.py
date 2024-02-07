@@ -133,11 +133,10 @@ def LLMPipeline(temperature,
                 model_id=args.model_id):
     
     # Initialize tokenizer & model
-    tokenizer = LlamaTokenizer.from_pretrained(model_id, token=hf_auth)
+    tokenizer = LlamaTokenizer.from_pretrained(model_id)
     model = LlamaForCausalLM.from_pretrained(model_id,
                                              torch_dtype=amp_dtype,
-                                             torchscript=True if args.sq or args.jit else False,
-                                             token=hf_auth)
+                                             torchscript=True if args.sq or args.jit else False,)
     model = model.to(memory_format=torch.channels_last)
     model.eval()
     
@@ -235,7 +234,7 @@ with st.sidebar:
     max_length = st.sidebar.slider('max_length', min_value=64, max_value=4096, value=512, step=8)
     
     # Load conversation
-    conversation, memory = LLMPipeline(temperature, top_p, top_k, max_length, args.auth_token)
+    conversation, memory = LLMPipeline(temperature, top_p, top_k, max_length)
 
 # Store LLM generated responses
 if "messages" not in st.session_state.keys():

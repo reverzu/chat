@@ -128,7 +128,6 @@ def LLMPipeline(temperature,
                 top_p,
                 top_k,
                 max_length,
-                hf_auth,
                 repetition_penalty=1.1,
                 model_id=args.model_id):
     

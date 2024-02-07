@@ -3,9 +3,9 @@ from peft import PeftModel
 from transformers import LLaMATokenizer, LLaMAForCausalLM, GenerationConfig 
 import textwrap
 
-tokenizer = LLaMATokenizer.from_pretrained("decapoda-research/llama-7b-hf") 
-model = LLaMAForCausalLM.from_pretrained( "decapoda-research/llama-7b-hf", load_in_8bit=True, device_map="auto", ) 
-model = PeftModel.from_pretrained(model, "samwit/alpaca7B-lora")
+tokenizer = LLaMATokenizer.from_pretrained("TheBloke/Llama-2-7B-Chat-GGML") 
+model = LLaMAForCausalLM.from_pretrained( "TheBloke/Llama-2-7B-Chat-GGML", load_in_8bit=True, device_map="auto", ) 
+model = PeftModel.from_pretrained(model, "TheBloke/Llama-2-7B-Chat-GGML")
 def alpaca_talk(text): inputs = tokenizer( text, return_tensors="pt", ) 
 input_ids = inputs["input_ids"].cuda() 
 generation_config = GenerationConfig( temperature=0.6, top_p=0.95, repetition_penalty=1.2, ) 

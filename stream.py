@@ -16,10 +16,6 @@ from langchain.llms import HuggingFacePipeline
 logger = get_logger(__name__)
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--auth_token",
-                    help='HuggingFace authentification token for getting LLaMa2',
-                    required=True)
-
 parser.add_argument("--model_id",
                     type=str,
                     default="TheBloke/Llama-2-7B-Chat-GGML",

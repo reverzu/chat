@@ -1,12 +1,7 @@
-transformers
-streamlit==1.25.0
-sentencepiece==0.1.99
-langchain==0.0.329
-accelerate==0.21.0
-git+https://github.com/huggingface/optimum-intel.git
---find-links https://download.pytorch.org/whl/torch_stable.html
-torch==2.0.1+cpu
-torchvision==0.15.2
-torchaudio==2.0.2
-intel_extension_for_pytorch==2.0.100
-bigdl-llm[all]
+datasets
+loralib
+sentencepiece
+streamlit
+git+https://github.com/zphang/transformers@c3dc391
+git+https://github.com/huggingface/peft.git
+bitsandbytes

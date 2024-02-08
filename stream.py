@@ -1,19 +1,19 @@
-import streamlit as st
-from peft import PeftModel 
-from transformers import LLaMATokenizer, LLaMAForCausalLM, GenerationConfig 
-import textwrap
+from langchain.llms import CTransformers
+from langchain import PromptTemplate, LLMChain
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
-tokenizer = LLaMATokenizer.from_pretrained("TheBloke/Llama-2-7B-Chat-GGML") 
-model = LLaMAForCausalLM.from_pretrained( "TheBloke/Llama-2-7B-Chat-GGML", load_in_8bit=True, device_map="auto", ) 
-model = PeftModel.from_pretrained(model, "TheBloke/Llama-2-7B-Chat-GGML")
-def alpaca_talk(text): inputs = tokenizer( text, return_tensors="pt", ) 
-input_ids = inputs["input_ids"].cuda() 
-generation_config = GenerationConfig( temperature=0.6, top_p=0.95, repetition_penalty=1.2, ) 
-st.write("Generating...") 
-generation_output = model.generate( input_ids=input_ids, generation_config=generation_config, return_dict_in_generate=True, output_scores=True, max_new_tokens=256, ) 
-for s in generation_output.sequences: st.write(tokenizer.decode(s))
+llm = CTransformers(model="TheBloke/Llama-2-7B-Chat-GGML", model_file = 'llama-2-7b-chat.ggmlv3.q8_0.bin', callbacks=[StreamingStdOutCallbackHandler()])
 
-input_text ='''Below is an instruction that describes a task. Write a response that appropriately completes the request. ### 
-Instruction: What are Alpacas and how are they different to Lamas? ### Response: ''' 
-response = alpaca_talk(input_text)
+template = """
+[INST] <<SYS>>
+You are a helpful, respectful and honest assistant. Your answers are always brief.
+<</SYS>>
+{text}[/INST]
+"""
+
+prompt = PromptTemplate(template=template, input_variables=["text"])
+
+llm_chain = LLMChain(prompt=prompt, llm=llm)
+
+response = llm_chain.run("Why some days are terrible?")
 st.write(response)

@@ -15,5 +15,6 @@ prompt = PromptTemplate(template=template, input_variables=["text"])
 
 llm_chain = LLMChain(prompt=prompt, llm=llm)
 
-for response in llm_chain.run("Why some days are terrible?"):
+for response in llm("Why some days are terrible?", stream=True):
+  print(response)
   st.markdown(response)

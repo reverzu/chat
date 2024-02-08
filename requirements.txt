@@ -1,7 +1,3 @@
-datasets
-loralib
-sentencepiece
-streamlit
-git+https://github.com/zphang/transformers@c3dc391
-git+https://github.com/huggingface/peft.git
-bitsandbytes
+streamit
+ctransformers
+langchain
